@@ -115,8 +115,7 @@ struct AIAssistantView: View {
         do {
             guard context == source else { throw AssistantFailure("课表已发生变化，请重新生成方案。") }
             let updated = try source.applying(plan)
-            settings.regular = updated.regular
-            settings.evening = updated.evening
+            settings.replaceTables(regular: updated.regular, evening: updated.evening)
             undoBefore = source; undoAfter = updated
             pending = nil; history = []
             messages.append("已应用 \(plan.actions.count) 处临时安排。")
@@ -129,7 +128,7 @@ struct AIAssistantView: View {
         guard context.regular == after.regular, context.evening == after.evening else {
             error = "课表在应用后又有修改。请到临时安排列表撤销对应日期，避免覆盖新改动。"; return
         }
-        settings.regular = before.regular; settings.evening = before.evening
+        settings.replaceTables(regular: before.regular, evening: before.evening)
         undoBefore = nil; undoAfter = nil; pending = nil; history = []
         messages.append("已撤销上次应用。"); error = nil
     }
@@ -164,7 +163,7 @@ private struct TemporaryScheduleView: View {
                 guard let date = restoring else { return }
                 var regular = settings.regular; var evening = settings.evening
                 regular.dateOverrides.removeValue(forKey: date); evening.dateOverrides.removeValue(forKey: date)
-                settings.regular = regular; settings.evening = evening; restoring = nil
+                settings.replaceTables(regular: regular, evening: evening); restoring = nil
             }
         } message: { Text("移除此日期的全部临时修改，并重新使用常规循环课表。") }
     }

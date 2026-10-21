@@ -31,6 +31,11 @@ extension ScheduleTable {
         let periods = changes.keys.compactMap(Int.init).filter { (1...Self.maxPeriods).contains($0) }
         copy.periodsPerDay[day] = max(periodCount(day: day), periods.max() ?? 1)
         copy.normalize()
+        if !enabled {
+            for period in 0..<copy.periodCount(day: day) {
+                copy.setSubject("", row: row, day: day, period: period)
+            }
+        }
         if copy.timeMode == .unified {
             copy.timeMode = .perDay
             copy.seedDailyTimesFromUnified()

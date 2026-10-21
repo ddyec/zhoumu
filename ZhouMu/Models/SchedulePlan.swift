@@ -74,7 +74,8 @@ struct ScheduleContext: Equatable, Encodable {
             guard time?.isValid != false else { throw AssistantFailure("起止时间必须在当天范围内，且结束晚于开始。") }
             var table = copy.table(action.kind)
             table.dateOverrides[action.date, default: [:]][String(action.period)] = ScheduleOverride(
-                subject: action.subject.trimmingCharacters(in: .whitespacesAndNewlines), time: time)
+                subject: action.subject.trimmingCharacters(in: .whitespacesAndNewlines),
+                time: time ?? table.dateOverrides[action.date]?[String(action.period)]?.time)
             if action.kind == .regular { copy.regular = table } else { copy.evening = table }
             affected.insert(action.date)
         }

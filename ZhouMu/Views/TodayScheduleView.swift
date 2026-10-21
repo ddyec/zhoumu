@@ -23,11 +23,13 @@ struct TodayScheduleView: View {
                         ForEach(timedClasses) { item in
                             timedRow(item)
                         }
-                    } else if !untimedRows.isEmpty {
+                    }
+                    if !untimedRows.isEmpty {
                         ForEach(Array(untimedRows.enumerated()), id: \.offset) { _, item in
                             untimedRow(item)
                         }
-                    } else {
+                    }
+                    if timedClasses.isEmpty && untimedRows.isEmpty {
                         emptyState
                     }
                 }
@@ -60,7 +62,7 @@ struct TodayScheduleView: View {
         if timedClasses.isEmpty && !untimedRows.isEmpty {
             return "\(date) \(weekday) · 未填上下课时间"
         }
-        let count = timedClasses.isEmpty ? untimedRows.count : timedClasses.count
+        let count = timedClasses.count + untimedRows.count
         return "\(date) \(weekday) · 共 \(count) 节"
     }
 
@@ -148,7 +150,7 @@ struct TodayScheduleView: View {
             let row = table.rotatesByWeek ? max(0, (week ?? 1) - 1) : 0
             for period in 0..<table.periodCount(day: day) {
                 let subject = table.subject(row: row, day: day, period: period)
-                guard !subject.isEmpty else { continue }
+                guard !subject.isEmpty, table.time(forPeriod: period, day: day) == nil else { continue }
                 rows.append(UntimedRow(kind: kind, period: period + 1, subject: subject))
             }
         }

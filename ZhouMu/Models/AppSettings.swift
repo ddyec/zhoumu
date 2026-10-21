@@ -66,6 +66,7 @@ final class AppSettings: ObservableObject {
     /// 上一次弹出开学设置的月份，格式 "yyyy-MM"。
     private(set) var lastSetupPromptMonth: String?
 
+    private var isReplacingTables = false
     private let defaults: UserDefaults
 
     /// 统一指向共享存储的 key，保证 App 和小组件读写的名字一致。
@@ -138,6 +139,15 @@ final class AppSettings: ObservableObject {
         case .regular: regular = table
         case .evening: evening = table
         }
+    }
+
+    /// 临时方案同时替换两张表，持久化时不会出现半个方案。
+    func replaceTables(regular: ScheduleTable, evening: ScheduleTable) {
+        isReplacingTables = true
+        self.regular = regular
+        self.evening = evening
+        isReplacingTables = false
+        persist()
     }
 
     /// 取某格的科目名，空格子返回空字符串（= 无）。
@@ -246,6 +256,7 @@ final class AppSettings: ObservableObject {
     // MARK: - 持久化
 
     private func persist() {
+        guard !isReplacingTables else { return }
         defaults.set(startDate.timeIntervalSince1970, forKey: Key.startDate)
         defaults.set(cycleWeeks, forKey: Key.cycleWeeks)
         defaults.set(cyclingEnabled, forKey: Key.cyclingEnabled)

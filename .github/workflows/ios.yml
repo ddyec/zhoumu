@@ -50,6 +50,10 @@ jobs:
         run: |
           swiftc Tools/AssistantCheck/main.swift Shared/SemesterCalculator.swift Shared/ScheduleModel.swift Shared/ScheduleOverride.swift ZhouMu/Models/SchedulePlan.swift -o build/assistant-check
           build/assistant-check
+      - name: Check API formats without external requests
+        run: |
+          swiftc Tools/APIcheck/main.swift Shared/SemesterCalculator.swift Shared/ScheduleModel.swift Shared/ScheduleOverride.swift ZhouMu/Models/SchedulePlan.swift ZhouMu/Models/AIEndpoint.swift ZhouMu/Models/AIClient.swift -o build/api-check
+          build/api-check
       - name: Build unsigned IPA
         if: ${{ !inputs.signed }}
         run: |

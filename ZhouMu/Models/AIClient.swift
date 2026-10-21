@@ -27,15 +27,17 @@ enum AIClient {
     message要解释日期和改动范围；动作必须与解释一致。同一个日期/课表/节次只出现一次，最多200个动作。不要输出Markdown或其他字段。
     """
 
-    static func propose(endpoint: AIEndpoint, key: String, context: ScheduleContext,
-                        history: [AIChatMessage]) async throws -> SchedulePlan {
+    static func makeRequest(endpoint: AIEndpoint, key: String, context: ScheduleContext,
+                            history: [AIChatMessage]) throws -> URLRequest {
         let contextData = try JSONEncoder().encode(context)
         let system = systemPrompt + "\n当前课表上下文：\n" + String(decoding: contextData, as: UTF8.self)
         var request = URLRequest(url: try endpoint.requestURL())
         request.httpMethod = "POST"
         request.timeoutInterval = 90
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let messages = history.suffix(12).map { ["role": $0.role, "content": $0.content] }
+        var recent = Array(history.suffix(12))
+        if recent.first?.role == "assistant" { recent.removeFirst() }
+        let messages = recent.map { ["role": $0.role, "content": $0.content] }
         var body: [String: Any] = ["model": endpoint.model, "stream": false, "messages": messages]
         switch endpoint.format {
         case .openAI:
@@ -48,6 +50,12 @@ enum AIClient {
             body["max_tokens"] = 8192
         }
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        return request
+    }
+
+    static func propose(endpoint: AIEndpoint, key: String, context: ScheduleContext,
+                        history: [AIChatMessage]) async throws -> SchedulePlan {
+        let request = try makeRequest(endpoint: endpoint, key: key, context: context, history: history)
         let configuration = URLSessionConfiguration.ephemeral
         configuration.timeoutIntervalForResource = 100
         let session = URLSession(configuration: configuration, delegate: NoAIRedirect(), delegateQueue: nil)
@@ -62,10 +70,14 @@ enum AIClient {
             default: throw AssistantFailure("API 请求失败（HTTP \(response.statusCode)），请检查地址、协议和模型。")
             }
         }
+        return try decode(data, format: endpoint.format, context: context)
+    }
+
+    static func decode(_ data: Data, format: AIProtocol, context: ScheduleContext) throws -> SchedulePlan {
         guard data.count <= 2_000_000,
               let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw AssistantFailure("API 响应过大或格式无效。") }
         let content: String
-        if endpoint.format == .openAI {
+        if format == .openAI {
             guard let choices = json["choices"] as? [[String: Any]], let first = choices.first,
                   first["finish_reason"] as? String != "length",
                   let message = first["message"] as? [String: Any], let text = message["content"] as? String else {

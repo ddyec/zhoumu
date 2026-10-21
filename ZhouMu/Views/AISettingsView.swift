@@ -20,7 +20,7 @@ struct AISettingsView: View {
                     }
                 }
                 .onDelete { indices in
-                    do { for index in indices { try store.remove(store.endpoints[index]) } }
+                    do { for index in indices.sorted(by: >) { try store.remove(store.endpoints[index]) } }
                     catch { self.error = error.localizedDescription }
                 }
                 Button("添加 API 服务", systemImage: "plus") { editing = AIEndpoint() }

@@ -52,4 +52,10 @@ var disabled = ScheduleTable(enabled: false)
 disabled.dateOverrides["2026-10-21"] = ["1": ScheduleOverride(subject: "活动", time: PeriodTime(start: 1000, end: 1030))]
 check(ClassSchedule.classes(for: date, tables: [.evening: disabled], displayWeek: 1).count == 1, "关闭的课表可单日添加活动")
 check(!disabled.effective(on: nextWeek, displayWeek: 1).enabled, "活动不启用未来课表")
+let renamedMeeting = try meeting.applying(plan([action(9, "临时讨论")]))
+check(renamedMeeting.regular.dateOverrides["2026-10-21"]?["9"]?.time == PeriodTime(start: 900, end: 960), "修改临时事项名称保留已设时间")
+var hidden = regular
+hidden.enabled = false
+hidden.dateOverrides["2026-10-21"] = ["3": ScheduleOverride(subject: "活动", time: PeriodTime(start: 900, end: 960))]
+check(ClassSchedule.classes(for: date, tables: [.regular: hidden], displayWeek: 1).map(\.subject) == ["活动"], "单日活动不启用已关闭模板的其他课程")
 print("All assistant checks passed")
