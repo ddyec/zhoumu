@@ -274,22 +274,22 @@
 				TargetAttributes = {
 					AB0000000000000000000004 = {
 						CreatedOnToolsVersion = 16.2;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					AB0000000000000000000010 = {
 						CreatedOnToolsVersion = 16.2;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					AB0000000000000000000021 = {
 						CreatedOnToolsVersion = 26.0;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					AB000000000000000000002A = {
 						CreatedOnToolsVersion = 26.0;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -402,7 +402,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_BUNDLE_ID = com.zhoumu.weekdisplay;
+				APP_BUNDLE_ID = com.ddyec.zhoumu.ai;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -466,7 +466,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_BUNDLE_ID = com.zhoumu.weekdisplay;
+				APP_BUNDLE_ID = com.ddyec.zhoumu.ai;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -527,7 +527,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZhouMu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M39NNXS7CK;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ZhouMu/ZhouMu-Info.plist";
@@ -561,7 +561,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZhouMu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M39NNXS7CK;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ZhouMu/ZhouMu-Info.plist";
@@ -593,7 +593,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZhouMuWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M39NNXS7CK;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ZhouMuWidget-Info.plist";
@@ -621,7 +621,7 @@
 				CODE_SIGN_ENTITLEMENTS = ZhouMuWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M39NNXS7CK;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ZhouMuWidget-Info.plist";
@@ -799,3 +799,4 @@
 	};
 	rootObject = AB0000000000000000000005 /* Project object */;
 }
+

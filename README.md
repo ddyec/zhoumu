@@ -1,10 +1,12 @@
+> 此 fork 增加了自定义 OpenAI / Anthropic API 排课助理、按日期的临时安排，以及独立 Bundle ID 的 GitHub Actions 构建。使用和签名配置见 [AI 与 Actions 构建说明](AI与Actions构建.md)。
+
 # 周目
 
 **打开就知道今天是第几周、今天上什么课。**
 
 一个极简的 iOS App + 桌面小组件：按你的开学日期和「周目循环」算周目，支持正课表 / 晚课表、灵动岛提醒。
 
-浅色白蓝、深色黑蓝，**不联网、不要账号、不收集任何数据**。
+浅色白蓝、深色黑蓝，**常规课表本地使用；可选 AI 助理会连接你配置的 API 服务**。
 
 > 📦 这是 [**周目**](https://github.com/zhoumu-app) 组织的主仓库。
 > 🤖 想要 Android 版？到 [zhoumu-android](https://github.com/zhoumu-app/zhoumu-android/releases/latest) 下 APK（已签好名，直接装）。
@@ -76,7 +78,7 @@
 ### 其他
 
 - **浅色 / 深色 / 跟随系统** 三态外观切换，App 图标也有深浅两个版本。
-- 不联网、不要账号、不收集任何数据。
+- 常规课表离线使用，无需应用账号。使用 AI 助理时，课表和当前会话会发往用户配置的 API 服务。
 
 ---
 
@@ -338,3 +340,4 @@ A：App 里改设置会立刻通知小组件刷新；如果 App 已被系统杀�
   <a href="https://github.com/zhoumu-app/zhoumu-watch">手表代码副本</a> ·
   <a href="https://github.com/zhoumu-app/zhoumu/releases/latest">下载最新版</a>
 </p>
+

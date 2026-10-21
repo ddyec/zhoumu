@@ -10,6 +10,7 @@ struct HomeView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var isShowingSettings = false
+    @State private var isShowingAssistant = false
     @State private var now = Date()
     @State private var page = 0
 
@@ -51,6 +52,9 @@ struct HomeView: View {
         .sheet(isPresented: $isShowingSettings) {
             SettingsView().environmentObject(settings)
         }
+        .sheet(isPresented: $isShowingAssistant) {
+            AIAssistantView().environmentObject(settings)
+        }
         .onAppear {
             presentSetupIfNeeded()
             syncLiveActivity()
@@ -83,6 +87,13 @@ struct HomeView: View {
                 .foregroundStyle(Palette.accent)
 
             Spacer()
+
+            Button { isShowingAssistant = true } label: {
+                Image(systemName: "sparkles")
+                    .font(.system(size: 20, weight: .semibold))
+                    .frame(width: 40, height: 40)
+            }
+            .accessibilityLabel("AI 排课助理")
 
             Button {
                 isShowingSettings = true
@@ -328,3 +339,4 @@ private struct CycleDots: View {
 #Preview {
     HomeView().environmentObject(AppSettings())
 }
+

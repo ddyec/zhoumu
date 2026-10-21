@@ -98,6 +98,9 @@ struct ScheduleTable: Codable, Equatable, Sendable {
     /// 科目表。key 格式 `"排-日-节"`（都是 0 基），value 是科目名；没有 key = 该格为「无」。
     var subjects: [String: String]
 
+    /// 指定日期的临时例外；不修改每周循环。空科目表示该日停课。
+    var dateOverrides: [String: [String: ScheduleOverride]] = [:]
+
     // MARK: 约束
 
     static let minPeriods = 1
@@ -265,7 +268,7 @@ struct ScheduleTable: Codable, Equatable, Sendable {
     /// 老版本存下来的 JSON 里没有这两个键，直接用合成的解码器会**整体失败**
     /// （结果就是用户的课表被清空）。所以这里手写一份，缺键时给默认值。
     enum CodingKeys: String, CodingKey {
-        case enabled, rotatesByWeek, periodsPerDay, timeMode, periodTimes, dailyPeriodTimes, subjects
+        case enabled, rotatesByWeek, periodsPerDay, timeMode, periodTimes, dailyPeriodTimes, subjects, dateOverrides
     }
 
     init(from decoder: Decoder) throws {
@@ -278,6 +281,7 @@ struct ScheduleTable: Codable, Equatable, Sendable {
         periodTimes = try c.decodeIfPresent([PeriodTime?].self, forKey: .periodTimes) ?? []
         dailyPeriodTimes = try c.decodeIfPresent([[PeriodTime?]].self, forKey: .dailyPeriodTimes) ?? []
         subjects = try c.decodeIfPresent([String: String].self, forKey: .subjects) ?? [:]
+        dateOverrides = try c.decodeIfPresent([String: [String: ScheduleOverride]].self, forKey: .dateOverrides) ?? [:]
         normalize()
     }
 
@@ -383,7 +387,9 @@ enum ClassSchedule {
         var result: [ScheduledClass] = []
 
         for kind in ScheduleKind.allCases {
-            guard let table = tables[kind], table.enabled else { continue }
+            guard let original = tables[kind] else { continue }
+            let table = original.effective(on: date, displayWeek: displayWeek)
+            guard table.enabled else { continue }
             let row = table.rotatesByWeek ? max(0, displayWeek - 1) : 0
             let count = table.periodCount(day: day)
 
@@ -487,7 +493,8 @@ enum ClassSchedule {
 
         // 没有可用的时间轴 → 回退到「当日晚课」
         if timeline.isEmpty {
-            let fallback = eveningSubject(day: day, tables: tables, displayWeek: displayWeek)
+            let effective = tables.mapValues { $0.effective(on: now, displayWeek: displayWeek ?? 1) }
+            let fallback = eveningSubject(day: day, tables: effective, displayWeek: displayWeek)
             return RingContent(subject: fallback ?? "无课",
                                caption: fallback == nil ? weekday : "当日晚课",
                                progress: 0,
@@ -588,3 +595,4 @@ enum ScheduleMigration {
         return table.hasAnySubject ? table : nil
     }
 }
+

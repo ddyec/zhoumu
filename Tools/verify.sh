@@ -18,6 +18,7 @@ swiftc -module-cache-path "$CACHE" -O \
   Shared/SharedStorage.swift \
   Shared/Theme.swift \
   Shared/ScheduleModel.swift \
+  Shared/ScheduleOverride.swift \
   ZhouMu/Models/AppSettings.swift \
   -o build/zhoumu-check
 ./build/zhoumu-check
@@ -77,3 +78,4 @@ swift -module-cache-path "$CACHE" Tools/make_icon.swift "$ICON/AppIcon-1024-dark
 echo
 echo "==> 全部通过"
 echo "    界面预览（可选）：./Tools/render_ui.sh  和  ./Tools/render_widget.sh"
+
