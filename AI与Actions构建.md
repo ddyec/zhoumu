@@ -28,7 +28,7 @@ AI 给出方案后，逐项查看日期、原课程、新课程和时间，再�
 
 ## GitHub Actions 构建
 
-工作流：`.github/workflows/ios.yml`（Build iOS）。推送 main、codex 分支或提交 PR 自动校验并构建无签名 IPA。也可以在 Actions → Build iOS → Run workflow 手动构建。
+工作流：`.github/workflows/ios.yml`（Build iOS）。推送 main 或提交 / 更新 PR 自动校验并构建无签名 IPA。也可以在 Actions → Build iOS → Run workflow 手动构建。
 
 默认主应用 Bundle ID：`com.ddyec.zhoumu.ai`，与上游的 `com.zhoumu.weekdisplay` 不同。手动运行可填写其他 Bundle ID；自动构建也可设置仓库变量 `APP_BUNDLE_ID`。
 
@@ -83,5 +83,7 @@ bash Tools/verify.sh
 swiftc Tools/AssistantCheck/main.swift Shared/SemesterCalculator.swift Shared/ScheduleModel.swift Shared/ScheduleOverride.swift ZhouMu/Models/SchedulePlan.swift -o build/assistant-check
 build/assistant-check
 ```
+
+Actions 还会用离线响应样本验证两种协议的 URL、认证头、消息结构、响应解码和截断响应处理，无需真实 API Key。
 
 Actions 还会执行整个 iOS Release 构建，编译内嵌 Watch App 和两种小组件。真实第三方 API 的响应质量及证书签名需使用用户自己的服务配置和证书验证。
