@@ -1,3 +1,5 @@
+> 此 fork 增加了自定义 OpenAI / Anthropic API 排课助理、按日期的临时安排，以及独立 Bundle ID 的 GitHub Actions 构建。使用和签名配置见 [AI 与 Actions 构建说明](AI与Actions构建.md)。
+
 # 周目
 
 **打开就知道今天是第几周、今天上什么课。**
@@ -338,3 +340,4 @@ A：App 里改设置会立刻通知小组件刷新；如果 App 已被系统杀�
   <a href="https://github.com/zhoumu-app/zhoumu-watch">手表代码副本</a> ·
   <a href="https://github.com/zhoumu-app/zhoumu/releases/latest">下载最新版</a>
 </p>
+

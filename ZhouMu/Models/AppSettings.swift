@@ -192,7 +192,7 @@ final class AppSettings: ObservableObject {
     var todayHasTimes: Bool {
         let day = SemesterCalculator.dayIndexInWeek(for: Date())
         return enabledKinds.contains { kind in
-            let t = table(kind)
+            let t = table(kind).effective(on: Date(), displayWeek: displayWeek() ?? 1)
             return (0..<t.periodCount(day: day)).contains { t.hasTime(day: day, period: $0) }
         }
     }
@@ -279,3 +279,4 @@ final class AppSettings: ObservableObject {
         }
     }
 }
+

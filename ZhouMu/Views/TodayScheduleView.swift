@@ -143,7 +143,7 @@ struct TodayScheduleView: View {
         var rows: [UntimedRow] = []
 
         for kind in ScheduleKind.allCases {
-            let table = settings.table(kind)
+            let table = settings.table(kind).effective(on: now, displayWeek: week ?? 1)
             guard table.enabled else { continue }
             let row = table.rotatesByWeek ? max(0, (week ?? 1) - 1) : 0
             for period in 0..<table.periodCount(day: day) {
@@ -200,3 +200,4 @@ struct TodayScheduleView: View {
 #Preview {
     TodayScheduleView(now: Date()).environmentObject(AppSettings())
 }
+
