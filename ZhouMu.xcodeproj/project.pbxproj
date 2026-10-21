@@ -274,22 +274,22 @@
 				TargetAttributes = {
 					AB0000000000000000000004 = {
 						CreatedOnToolsVersion = 16.2;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					AB0000000000000000000010 = {
 						CreatedOnToolsVersion = 16.2;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					AB0000000000000000000021 = {
 						CreatedOnToolsVersion = 26.0;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					AB000000000000000000002A = {
 						CreatedOnToolsVersion = 26.0;
-						DevelopmentTeam = M39NNXS7CK;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
